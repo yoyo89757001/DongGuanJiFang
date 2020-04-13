@@ -68,15 +68,17 @@ public class MyApplication extends Application implements Application.ActivityLi
         if (mSerialPort == null) {
             /* Read serial port parameters */
             SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
-            String path = sp.getString("DEVICE", "/dev/ttyS2");
+            String path = null;
             int baudrate=0;
             if (name==null || name.equals("天波")){
+                path= sp.getString("DEVICE", "/dev/ttyS2");
                  baudrate = Integer.decode(Objects.requireNonNull(sp.getString("BAUDRATE", "9600")));
-            }else {//涂鸦
-                 baudrate = Integer.decode(Objects.requireNonNull(sp.getString("BAUDRATE", "115200")));
+            }else {//涂鸦本机 2  115200   外接 4  9600
+                path= sp.getString("DEVICE", "/dev/ttyS4");
+                 baudrate = Integer.decode(Objects.requireNonNull(sp.getString("BAUDRATE", "9600")));
             }
             /* Check parameters */
-            if ( (path.length() == 0) || (baudrate == -1)) {
+            if ( (path==null) || (baudrate == -1)) {
                 throw new InvalidParameterException();
             }
 

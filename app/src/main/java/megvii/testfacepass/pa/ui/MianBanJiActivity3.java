@@ -73,7 +73,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -108,6 +110,7 @@ import megvii.testfacepass.pa.tuisong_jg.MyServeInterface;
 import megvii.testfacepass.pa.tuisong_jg.ServerManager;
 import megvii.testfacepass.pa.tuisong_jg.TSXXChuLi;
 import megvii.testfacepass.pa.utils.BitmapUtil;
+import megvii.testfacepass.pa.utils.ByteUtil;
 import megvii.testfacepass.pa.utils.DateUtils;
 import megvii.testfacepass.pa.utils.DengUT;
 import megvii.testfacepass.pa.utils.FileUtil;
@@ -524,7 +527,15 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                readdd(buffer);
+                             //   Log.d("ReadThread", "byte数组原始格式:" + Arrays.toString(buffer));
+                             //   Log.d("ReadThread","byte数组转十六进制"+ bytesToHexString(buffer));
+                                //48, 51, 48, 52, 53, 57, 49, 56, 52, 50, 13, 10
+                                //48, 51, 48, 54, 52, 53, 52, 53, 54, 50, 13, 10
+                                //48, 51, 48, 54, 52, 57, 49, 56, 52, 50, 13, 10,
+                              //  Log.d("ReadThread", ByteUtil.getString(buffer, StandardCharsets.UTF_8.name()));
+                                //303330343539313834320d0a
+                                //303330363435343536320d0a
+                                readdd(ByteUtil.getString(buffer, StandardCharsets.UTF_8.name()));
                             }
                         });
                     }
@@ -537,17 +548,54 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     }
 
 
-    private void readdd(byte[] idid) {
-        String sdfds = byteToString(idid);
+    /**
+     * bytes 转16进制字符串
+     * @param bArray
+     * @return
+     */
+    public   String bytesToHexString(byte[] bArray) {
+        StringBuffer sb = new StringBuffer(bArray.length);
+        String sTemp;
+        for (int i = 0; i < bArray.length; i++) {
+            sTemp = Integer.toHexString(0xFF & bArray[i]);
+            if (sTemp.length() < 2)
+                sb.append(0);
+            sb.append(sTemp.toUpperCase());
+        }
+        return sb.toString();
+    }
 
 
+
+    private void readdd(String idid) {
+        String sdfds = idid;
+
+        Log.d("byte数组转String", sdfds);
+        StringBuilder builder = new StringBuilder();
         if (sdfds != null) {
-            sdfds = sdfds.substring(6, 14);
+            sdfds = sdfds.substring(0, 10);
+            int kk=0;
+            try {
+                kk = Integer.parseInt(sdfds);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            sdfds = Integer.toHexString(kk);
+
+            if(sdfds.length() == 8) {
+                for(int i = 0; i<4; i++) {
+                    String str = sdfds.substring(sdfds.length()-2 * (i+1), sdfds.length()-2*i);
+                    builder.append(str);
+                }
+            }else {
+                return;
+            }
         } else {
             return;
         }
+        sdfds=builder.toString();
         sdfds = sdfds.toUpperCase();
-        //Log.d("MianBanJiActivity3", sdfds);
+        Log.d("byte数组转String截取6到14位并大写", sdfds);
         final String finalSdfds = sdfds;
         runOnUiThread(new Runnable() {
             @Override
