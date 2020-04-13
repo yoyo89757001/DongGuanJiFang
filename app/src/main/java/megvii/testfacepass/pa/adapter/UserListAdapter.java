@@ -92,6 +92,7 @@ public class UserListAdapter extends BaseAdapter {
             holder.idid =  convertView.findViewById(R.id.idid);
             holder.kahao =  convertView.findViewById(R.id.kahao);
             holder.open =  convertView.findViewById(R.id.open);
+            holder.guoqi =  convertView.findViewById(R.id.guoqi);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -105,9 +106,11 @@ public class UserListAdapter extends BaseAdapter {
             }
         });
 
+        holder.guoqi.setText("过期时间: "+mGroupNames.get(position).getBirthday());
         holder.groupNameTv.setText(mGroupNames.get(position).getName()+"");
         holder.idid.setText("ID:"+mGroupNames.get(position).getTeZhengMa());
         holder.kahao.setText(mGroupNames.get(position).getWorkNumber()+"");
+
         if (mGroupNames.get(position).getIsOpen()==1){
             holder.open.setText("是否有进入权限：无权限");// 是否开门  1是关，0是开
         }else if (mGroupNames.get(position).getIsOpen()==0){
@@ -134,7 +137,7 @@ public class UserListAdapter extends BaseAdapter {
 
 
     public static class ViewHolder {
-        TextView groupNameTv,idid,kahao,open;
+        TextView groupNameTv,idid,kahao,open,guoqi;
         ImageView deleteGroupIv,touxiang;
     }
 

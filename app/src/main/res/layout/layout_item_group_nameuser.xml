@@ -8,6 +8,7 @@
 
     <ImageView
         android:id="@+id/touxiang"
+        android:scaleType="fitXY"
         android:layout_margin="12dp"
         android:layout_width="70dp"
         android:layout_height="80dp" />
@@ -43,6 +44,7 @@
                 android:layout_gravity="center"
                 android:textSize="14sp" />
 
+
         </LinearLayout>
 
         <LinearLayout
@@ -68,6 +70,24 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp">
+
+            <TextView
+                android:id="@+id/guoqi"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="14sp" />
+
 
         </LinearLayout>
 

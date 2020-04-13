@@ -1327,7 +1327,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                     }
                     if (subject != null) {
                         if (subject.getBirthday()!=null && !subject.getBirthday().equals("")){
-                            if (Long.parseLong(subject.getBirthday())<System.currentTimeMillis()){//过期了
+                            if (DateUtils.date2TimeStamp(subject.getBirthday())<System.currentTimeMillis()){//过期了
                                 //删除
                                 paAccessControl.stopFrameDetect();
                                 paAccessControl.deleteFaceById(subject.getTeZhengMa());
@@ -1569,16 +1569,19 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                                 LazyList<Subject> subjectLazyList=subjectBox.query().build().findLazy();
                                 for (Subject subject:subjectLazyList){
                                     try {
-                                        if (Long.parseLong(subject.getBirthday())<System.currentTimeMillis()){
+                                        if (DateUtils.date2TimeStamp(subject.getBirthday())<System.currentTimeMillis()){
                                             subjectList.add(subject);
                                         }
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
                                 }
+                                paAccessControl.stopFrameDetect();
                                 for (Subject ss:subjectList){
+                                    paAccessControl.deleteFaceById(ss.getTeZhengMa());
                                     subjectBox.remove(ss);
                                 }
+                                paAccessControl.startFrameDetect();
                                 Log.d("MianBanJiActivity3", "删除成功");
                                 //Log.d("MianBanJiActivity3", "数据同步：" + object.toString());
                             }

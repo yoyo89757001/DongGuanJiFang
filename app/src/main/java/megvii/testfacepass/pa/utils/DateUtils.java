@@ -4,6 +4,8 @@ package megvii.testfacepass.pa.utils;
  * Created by chenjun on 2017/4/10.
  */
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -98,6 +100,23 @@ public class DateUtils {
         }
         return times;
     }
+
+
+    public static long date2TimeStamp(String date) {
+        try {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date dater=sdf.parse(date);
+            if (dater!=null){
+                return dater.getTime();
+            }else
+                return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
 
     /**
      * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014年06月14日16时09分00秒"）
