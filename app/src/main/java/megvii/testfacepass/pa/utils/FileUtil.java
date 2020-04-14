@@ -931,6 +931,7 @@ public class FileUtil {
                 xs.startDocument("utf-8", true);
                 xs.startTag(null, "Root");
                 xs.attribute(null, "serialnumber", serialnumber);
+
                 xs.startTag(null, "List");
 
 
@@ -955,7 +956,8 @@ public class FileUtil {
                     xs.endTag(null, "personName");
 
                     xs.startTag(null, "iamge");
-                    xs.text(record.getB64() + "");
+//                    xs.text(record.getB64() + "");
+                    xs.text("kuhyuytyg");
                     xs.endTag(null, "iamge");
 
                     xs.startTag(null, "pepopleType");
@@ -967,7 +969,7 @@ public class FileUtil {
                     xs.endTag(null, "pepopleType");
 
                     xs.startTag(null, "companyId");
-                    xs.text(record.getDianhua());
+                    xs.text(record.getDianhua()+"");
                     xs.endTag(null, "companyId");
 
                     xs.startTag(null, "icCardNo");

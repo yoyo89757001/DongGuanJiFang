@@ -34,6 +34,7 @@ import android.os.SystemClock;
 import android.serialport.SerialPort;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -69,8 +70,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -1632,8 +1635,12 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
                     link_infoSync();
 
+                    final List<DaKaBean> huiFuBeanList = daKaBeanBox.getAll();
+                    if (huiFuBeanList.size()==0)
+                        return;
+                    generateXml(huiFuBeanList,JHM,baoCunBean.getName() + "",baoCunBean.getWeizhi() + "");
 
-                   link_chick_jilu();
+                //   link_chick_jilu();
 
 
 
@@ -1893,6 +1900,95 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         });
     }
 
+    public  void generateXml(final List<DaKaBean> records, final String serialnumber,String machineName,String machineAddress) {
+        File file = new File(MyApplication.SDPATH, "record.xml");
+        if (file.exists()) {
+            file.delete();
+            file = new File(MyApplication.SDPATH, "record.xml");
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            XmlSerializer xs = Xml.newSerializer();
+            xs.setOutput(fos, "utf-8");
+            xs.startDocument("utf-8", true);
+            xs.startTag(null, "Root");
+            xs.attribute(null, "serialnumber", serialnumber);
+
+            xs.startTag(null, "List");
+
+
+            for (DaKaBean record : records) {
+
+                xs.startTag(null, "history");
+
+                xs.startTag(null, "machineName");
+                xs.text(machineName);
+                xs.endTag(null, "machineName");
+
+                xs.startTag(null, "machineAddress");
+                xs.text(machineAddress);
+                xs.endTag(null, "machineAddress");
+
+                xs.startTag(null, "personName");
+                String department = record.getName();
+                if (department == null) {
+                    department = "";
+                }
+                xs.text(department);
+                xs.endTag(null, "personName");
+
+                xs.startTag(null, "iamge");
+                xs.text(record.getB64() + "");
+              //  xs.text("kuhyuytyg");
+                xs.endTag(null, "iamge");
+
+                xs.startTag(null, "pepopleType");
+                String peopleType = record.getRenyuanleixing();
+                if (peopleType == null) {
+                    peopleType = "";
+                }
+                xs.text(peopleType);
+                xs.endTag(null, "pepopleType");
+
+                xs.startTag(null, "companyId");
+                xs.text(record.getDianhua()+"");
+                xs.endTag(null, "companyId");
+
+                xs.startTag(null, "icCardNo");
+                xs.text(record.getBumen()+"");
+                xs.endTag(null, "icCardNo");
+
+                xs.startTag(null, "machineCode");
+                xs.text(serialnumber);
+                xs.endTag(null, "machineCode");
+
+                xs.startTag(null, "recognitionTime");
+                String cardId = record.getTime();
+                if (cardId == null) {
+                    cardId = "";
+                }
+                xs.text(cardId);
+                xs.endTag(null, "recognitionTime");
+
+                xs.endTag(null, "history");
+
+            }
+
+            xs.endTag(null, "List");
+
+            xs.endTag(null, "Root");
+            //生成xml头
+            xs.endDocument();
+
+            link_chick_jilu();
+
+        } catch (Exception e) {
+            Log.d("FileUtil", e.getMessage()+"");
+        }finally {
+            Log.d("FileUtil", "执行完成");
+        }
+    }
+
     //上传识别记录
     private void link_chick_jilu() {
 
@@ -1901,7 +1997,8 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         final List<DaKaBean> huiFuBeanList = daKaBeanBox.getAll();
         if (huiFuBeanList.size()==0)
             return;
-        FileUtil.generateXml(huiFuBeanList,JHM,baoCunBean.getName() + "",baoCunBean.getWeizhi() + "");
+     //   FileUtil.generateXml(huiFuBeanList,JHM,baoCunBean.getName() + "",baoCunBean.getWeizhi() + "");
+
 //        for (DaKaBean bean : huiFuBeanList) {
 //            try {
 //                JSONObject object = new JSONObject();
