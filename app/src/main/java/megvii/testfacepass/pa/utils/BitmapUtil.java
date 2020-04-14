@@ -138,6 +138,8 @@ public class BitmapUtil {
 
                 byte[] bitmapBytes = baos.toByteArray();
                 result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
+            }else {
+                return "";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -291,9 +293,7 @@ public class BitmapUtil {
            canvas.drawBitmap(bm, matrix, paint);
 
            return bm1;
-       } catch (OutOfMemoryError e) {
-           e.printStackTrace();
-       } catch (Exception e) {
+       } catch (OutOfMemoryError | Exception e) {
            e.printStackTrace();
        }
        return null;
@@ -307,8 +307,7 @@ public class BitmapUtil {
 
          m.postRotate(degress);
 
-         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
-                 m, true);
+         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),m, true);
 
          return bitmap;
 

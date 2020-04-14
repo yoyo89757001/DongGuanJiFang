@@ -61,7 +61,7 @@ import megvii.testfacepass.pa.MyApplication;
 import megvii.testfacepass.pa.R;
 import megvii.testfacepass.pa.beans.BaoCunBean;
 
-import megvii.testfacepass.pa.beans.ChengShiIDBean;
+
 
 import megvii.testfacepass.pa.beans.JsonBean;
 import megvii.testfacepass.pa.beans.Subject;

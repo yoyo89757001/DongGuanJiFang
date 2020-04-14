@@ -61,6 +61,15 @@ public class ZhiLingBean {
         private String subjectId;
         private String beginTime;
         private String endTime;
+        private String companyId;
+
+        public String getCompanyId() {
+            return companyId;
+        }
+
+        public void setCompanyId(String companyId) {
+            this.companyId = companyId;
+        }
 
         public String getBeginTime() {
             return beginTime;

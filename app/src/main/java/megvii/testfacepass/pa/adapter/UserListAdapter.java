@@ -122,6 +122,7 @@ public class UserListAdapter extends BaseAdapter {
         Bitmap bitmap = null;
         try {
             if (mGroupNames.get(position).getTeZhengMa()!=null){
+
                 Glide.with(context)
                         .load(MyApplication.SDPATH3+ File.separator+mGroupNames.get(position).getTeZhengMa()+".png")
                         .apply(myOptions2)

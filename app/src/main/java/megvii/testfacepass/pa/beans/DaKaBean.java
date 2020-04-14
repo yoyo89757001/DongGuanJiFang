@@ -10,10 +10,19 @@ public class DaKaBean {
     private Long id;
     private String id2;
     private String name;
-    private String bumen;
+    private String bumen;//存id卡
     private String renyuanleixing;
     private String time;
     private String dianhua;
+    private String b64;
+
+    public String getB64() {
+        return b64;
+    }
+
+    public void setB64(String b64) {
+        this.b64 = b64;
+    }
 
     public String getId2() {
         return id2;

@@ -26,10 +26,12 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Display;
 import android.view.WindowManager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -64,6 +66,7 @@ import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
 import megvii.testfacepass.pa.MyApplication;
+import megvii.testfacepass.pa.beans.DaKaBean;
 
 
 /**
@@ -912,6 +915,93 @@ public class FileUtil {
     ((ip >> 16) & 0xFF) + "." +
      (ip >> 24 & 0xFF);
     }
+
+
+    //生成XML文件
+    public static void generateXml(final List<DaKaBean> records, final String serialnumber,String machineName,String machineAddress) {
+            File file = new File(MyApplication.SDPATH, "record.xml");
+            if (file.exists()) {
+                file.delete();
+                file = new File(MyApplication.SDPATH, "record.xml");
+            }
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                XmlSerializer xs = Xml.newSerializer();
+                xs.setOutput(fos, "utf-8");
+                xs.startDocument("utf-8", true);
+                xs.startTag(null, "Root");
+                xs.attribute(null, "serialnumber", serialnumber);
+                xs.startTag(null, "List");
+
+
+                for (DaKaBean record : records) {
+
+                    xs.startTag(null, "history");
+
+                    xs.startTag(null, "machineName");
+                    xs.text(machineName);
+                    xs.endTag(null, "machineName");
+
+                    xs.startTag(null, "machineAddress");
+                    xs.text(machineAddress);
+                    xs.endTag(null, "machineAddress");
+
+                    xs.startTag(null, "personName");
+                    String department = record.getName();
+                    if (department == null) {
+                        department = "";
+                    }
+                    xs.text(department);
+                    xs.endTag(null, "personName");
+
+                    xs.startTag(null, "iamge");
+                    xs.text(record.getB64() + "");
+                    xs.endTag(null, "iamge");
+
+                    xs.startTag(null, "pepopleType");
+                    String peopleType = record.getRenyuanleixing();
+                    if (peopleType == null) {
+                        peopleType = "";
+                    }
+                    xs.text(peopleType);
+                    xs.endTag(null, "pepopleType");
+
+                    xs.startTag(null, "companyId");
+                    xs.text(record.getDianhua());
+                    xs.endTag(null, "companyId");
+
+                    xs.startTag(null, "icCardNo");
+                    xs.text(record.getBumen()+"");
+                    xs.endTag(null, "icCardNo");
+
+                    xs.startTag(null, "machineCode");
+                    xs.text(serialnumber);
+                    xs.endTag(null, "machineCode");
+
+                    xs.startTag(null, "recognitionTime");
+                    String cardId = record.getTime();
+                    if (cardId == null) {
+                        cardId = "";
+                    }
+                    xs.text(cardId);
+                    xs.endTag(null, "recognitionTime");
+
+                    xs.endTag(null, "history");
+
+                }
+
+                xs.endTag(null, "List");
+
+                xs.endTag(null, "Root");
+                //生成xml头
+                xs.endDocument();
+
+            } catch (Exception e) {
+                Log.d("FileUtil", e.getMessage()+"");
+            }finally {
+                Log.d("FileUtil", "执行完成");
+            }
+        }
 
 
 }

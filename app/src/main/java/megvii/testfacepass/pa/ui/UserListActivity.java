@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.bumptech.glide.Glide;
 import com.pingan.ai.access.manager.PaAccessControl;
 
 
@@ -52,6 +53,15 @@ public class UserListActivity extends Activity implements UserListAdapter.ItemDe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Glide.get(UserListActivity.this).clearDiskCache();
+            }
+        }).start();
+
+        Glide.get(this).clearMemory();
+
         ImageView fh=findViewById(R.id.fanhui);
         fh.setOnClickListener(new View.OnClickListener() {
             @Override
