@@ -65,8 +65,19 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         setContentView(R.layout.activity_base);
         baoCunBean=baoCunBeanBox.get(123456L);
 
+        MyApplication.myApplication.init();
+        MyApplication.myApplication.addActivity(this);
+
         methodRequiresTwoPermission();
 
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.myApplication.removeActivity(this);
     }
 
     private final int RC_CAMERA_AND_LOCATION=10000;

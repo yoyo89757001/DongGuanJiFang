@@ -78,7 +78,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -204,7 +203,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     /* 在预览界面圈出人脸 */
     private DongGuanView faceView;
     /* 相机是否使用前置摄像头 */
-    private static boolean cameraFacingFront = true;
+   // private static boolean cameraFacingFront = true;
     // private int cameraRotation;
     private static final int cameraWidth = 720;
     private static final int cameraHeight = 640;
@@ -213,7 +212,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     private int widthPixels;
     int screenState = 0;// 0 横 1 竖
     TanChuangThread tanChuangThread;
-    private ConcurrentHashMap<Long, Integer> concurrentHashMap = new ConcurrentHashMap<Long, Integer>();
+   // private ConcurrentHashMap<Long, Integer> concurrentHashMap = new ConcurrentHashMap<Long, Integer>();
     private int dw, dh;
     private Box<BaoCunBean> baoCunBeanDao = null;
     // private Box<TodayBean> todayBeanBox = null;
@@ -284,6 +283,8 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         EventBus.getDefault().register(this);//订阅
 
+        MyApplication.myApplication.addActivity(this);
+
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         dw = dm.widthPixels;
@@ -351,6 +352,8 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         } catch (Exception e) {
             Log.d("MianBanJiActivity", e.getMessage() + "dddddddd");
         }
+
+
 
         mReadThread = new ReadThread();
         mReadThread.start();
@@ -500,12 +503,9 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
        //  String sss = "ertyui1234567890";
        //  Log.d("MianBanJiActivity3", sss.substring(6, 14));
 
-
-
-        serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), 8090);
-        serverManager.setMyServeInterface(MianBanJiActivity3.this);
-        serverManager.startServer();
-
+//        serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), 8090);
+//        serverManager.setMyServeInterface(MianBanJiActivity3.this);
+//        serverManager.startServer();
 
 
     }
@@ -627,6 +627,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
                                     Message message = new Message();
                                     message.what = 222;
+                                    if (mHandler!=null)
                                     mHandler.sendMessage(message);
 
                                 }
@@ -638,6 +639,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                                 public void run() {
                                     Message message = new Message();
                                     message.what = 222;
+                                    if (mHandler!=null)
                                     mHandler.sendMessage(message);
                                 }
                             };
@@ -757,6 +759,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
                                 Message message = new Message();
                                 message.what = 222;
+                                if (mHandler!=null)
                                 mHandler.sendMessage(message);
 
                             }
@@ -768,6 +771,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                             public void run() {
                                 Message message = new Message();
                                 message.what = 222;
+                                if (mHandler!=null)
                                 mHandler.sendMessage(message);
                             }
                         };
@@ -1367,6 +1371,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                                 Message message2 = Message.obtain();
                                 message2.what = 111;
                                 message2.obj = subject;
+                                if (mHandler!=null)
                                 mHandler.sendMessage(message2);
                                 if (!DengUT.isOPENGreen) {
                                     DengUT.isOPENGreen = true;
@@ -1414,6 +1419,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         Message message2 = Message.obtain();
                         message2.what = 111;
                         message2.obj = subject1;
+                        if (mHandler!=null)
                         mHandler.sendMessage(message2);
 
                         if (!DengUT.isOPENRed) {
@@ -1441,6 +1447,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         Message message2 = Message.obtain();
                         message2.what = 111;
                         message2.obj = subject1;
+                        if (mHandler!=null)
                         mHandler.sendMessage(message2);
                         if (!DengUT.isOPENRed) {
                             DengUT.isOPENRed = true;
@@ -1492,6 +1499,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
     @Override
     protected void onDestroy() {
+
         Log.d("MianBanJiActivity3", "onDestroy");
         if (serverManager != null) {
             serverManager.stopServer();
@@ -1520,6 +1528,9 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         DengUT.closeRed();
 
         super.onDestroy();
+
+        MyApplication.myApplication.removeActivity(this);
+
     }
 
     private static final int REQUEST_CODE_CHOOSE_PICK = 1;
@@ -1636,9 +1647,9 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                     link_infoSync();
 
                     final List<DaKaBean> huiFuBeanList = daKaBeanBox.getAll();
-                    if (huiFuBeanList.size()==0)
-                        return;
-                    generateXml(huiFuBeanList,JHM,baoCunBean.getName() + "",baoCunBean.getWeizhi() + "");
+                    if (huiFuBeanList.size()>0){
+                        generateXml(huiFuBeanList,JHM,baoCunBean.getName() + "",baoCunBean.getWeizhi() + "");
+                    }
 
                 //   link_chick_jilu();
 
@@ -1980,7 +1991,11 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
             //生成xml头
             xs.endDocument();
 
-            link_chick_jilu();
+            xs.flush();
+            fos.flush();
+            fos.close();
+
+            link_chick_jilu(records);
 
         } catch (Exception e) {
             Log.d("FileUtil", e.getMessage()+"");
@@ -1990,13 +2005,13 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     }
 
     //上传识别记录
-    private void link_chick_jilu() {
+    private void link_chick_jilu(List<DaKaBean> daKaBeanList) {
 
 //        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 //        JSONArray array = new JSONArray();
-        final List<DaKaBean> huiFuBeanList = daKaBeanBox.getAll();
-        if (huiFuBeanList.size()==0)
-            return;
+//        final List<DaKaBean> huiFuBeanList = daKaBeanBox.getAll();
+//        if (huiFuBeanList.size()==0)
+//            return;
      //   FileUtil.generateXml(huiFuBeanList,JHM,baoCunBean.getName() + "",baoCunBean.getWeizhi() + "");
 
 //        for (DaKaBean bean : huiFuBeanList) {
@@ -2052,7 +2067,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                     JsonObject jsonObject = GsonUtil.parse(ss).getAsJsonObject();
 
                     if (jsonObject.get("code").getAsInt()==0){
-                        for (DaKaBean d:huiFuBeanList){
+                        for (DaKaBean d:daKaBeanList){
                             daKaBeanBox.remove(d);
                         }
                     }

@@ -173,7 +173,13 @@ public class CameraManager implements CameraPreview.CameraPreviewListener {
 
                         Log.i("CameraManager", String.format("camera rotation: %d %d %d", degrees, info.orientation, previewRotation));
                         camera.setDisplayOrientation(previewRotation);
-                        Camera.Parameters param = camera.getParameters();
+                        Camera.Parameters param=null;
+                        try {
+                            param = camera.getParameters();
+                        }catch (RuntimeException e){
+                            e.printStackTrace();
+                           return null;
+                        }
                         if (manualHeight > 0 && manualWidth > 0 && isSupportedPreviewSize(manualWidth, manualHeight, camera)) {
                             param.setPreviewSize(manualWidth, manualHeight);
                         } else {

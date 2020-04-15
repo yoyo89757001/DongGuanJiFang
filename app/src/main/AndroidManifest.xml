@@ -110,6 +110,8 @@
         <!-- android:name="android.accessibilityservice" -->
         <!-- android:resource="@xml/auto_reply_service_config"/> -->
         <!-- </service> -->
+
+
         <service android:name=".dialogall.CommonDialogService" />
     </application>
 
@@ -141,5 +143,6 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.GET_TASKS" />
+
 
 </manifest>
