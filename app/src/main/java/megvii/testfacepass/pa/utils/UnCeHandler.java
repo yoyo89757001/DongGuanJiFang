@@ -26,11 +26,15 @@ public class UnCeHandler implements Thread.UncaughtExceptionHandler {
             //如果用户没有处理则让系统默认的异常处理器来处理
             mDefaultHandler.uncaughtException(thread, ex);
         }else{
+            Intent intent2 = new Intent();
+            intent2.setAction("LYD_SHOW_NAVIGATION_BAR");
+            intent2.putExtra("type",1);
+            application.sendBroadcast(intent2);
+            application.sendBroadcast(new Intent("com.android.internal.policy.impl.showNavigationBar"));
+            application.sendBroadcast(new Intent("com.android.systemui.statusbar.phone.statusopen"));
 
             Intent intent = new Intent(application.getApplicationContext(), BaseActivity.class);
-            PendingIntent restartIntent = PendingIntent.getActivity(
-                    application.getApplicationContext(), 0, intent,
-                    Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent restartIntent = PendingIntent.getActivity(application.getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             //退出程序
             AlarmManager mgr = (AlarmManager)application.getSystemService(Context.ALARM_SERVICE);
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,

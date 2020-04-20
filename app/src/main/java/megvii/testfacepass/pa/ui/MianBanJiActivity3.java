@@ -3,8 +3,14 @@ package megvii.testfacepass.pa.ui;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+
+
+import android.app.ActivityManager;
 import android.app.PendingIntent;
+
+
 import android.content.BroadcastReceiver;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,7 +18,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -21,16 +26,17 @@ import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
+
+
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.nfc.Tag;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+
 import android.serialport.SerialPort;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -45,6 +51,7 @@ import android.widget.ImageView;
 
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -81,9 +88,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentHashMap;
+
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -108,9 +117,12 @@ import megvii.testfacepass.pa.camera.CameraPreview2;
 import megvii.testfacepass.pa.camera.CameraPreviewData;
 import megvii.testfacepass.pa.camera.CameraPreviewData2;
 import megvii.testfacepass.pa.dialog.MiMaDialog4;
+import megvii.testfacepass.pa.severs.ServiceCore;
+import megvii.testfacepass.pa.severs.WatchDogCore;
 import megvii.testfacepass.pa.tuisong_jg.MyServeInterface;
 import megvii.testfacepass.pa.tuisong_jg.ServerManager;
 import megvii.testfacepass.pa.tuisong_jg.TSXXChuLi;
+
 import megvii.testfacepass.pa.utils.BitmapUtil;
 import megvii.testfacepass.pa.utils.ByteUtil;
 import megvii.testfacepass.pa.utils.DateUtils;
@@ -157,6 +169,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     //   private static Vector<Subject> dibuList = new Vector<>();//下面的弹窗
     //   private static Vector<Subject> shuList = new Vector<>();//下面的弹窗
     private Bitmap msrBitmap = null;
+    private ServiceCore serviceCore;
 //    private RequestOptions myOptions = new RequestOptions()
 //            .fitCenter()
 //            .error(R.drawable.erroy_bg)
@@ -259,6 +272,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     private boolean isGET = true;
     private Box<HuiFuBean> huiFuBeanBox = null;
     private String JHM="";
+    private WatchDogCore mWatchDogCore;
 
 
 
@@ -282,8 +296,14 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         linkedBlockingQueue = new LinkedBlockingQueue<>(1);
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         EventBus.getDefault().register(this);//订阅
-
         MyApplication.myApplication.addActivity(this);
+
+        //启动监听服务
+        mWatchDogCore = new WatchDogCore();
+        serviceCore=new ServiceCore();
+        serviceCore.init(MyApplication.myApplication);
+        mWatchDogCore.init(MyApplication.myApplication, serviceCore);
+        mWatchDogCore.initDogBroadcastReceiver();
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -317,7 +337,8 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
         if (baoCunBean != null) {
             zhishuaka=baoCunBean.isTianQi();
-           // Log.d("MianBanJiActivity3", "zhishuaka:" + zhishuaka);
+
+            Log.d("MianBanJiActivity3", "onCreate:" + zhishuaka);
             try {
                 //PaAccessControl.getInstance().getPaAccessDetectConfig();
                 initFaceConfig();
@@ -490,26 +511,62 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()), 0);
         init_NFC();
 
-        manager.open(getWindowManager(), SettingVar.cameraId, cameraWidth, cameraHeight);//前置是1
-        if (SettingVar.cameraId == 1) {
-            manager2.open(getWindowManager(), 0, cameraWidth, cameraHeight, SettingVar.cameraPreviewRotation2);//最后一个参数是红外预览方向
-        } else {
-            if (baoCunBean.isHuoTi())
-            manager2.open(getWindowManager(), 1, cameraWidth, cameraHeight, SettingVar.cameraPreviewRotation2);//最后一个参数是红外预览方向
-        }
+      //  kaiPing();
 
-        guanPing();//关屏
+         guanPing();//关屏
 
        //  String sss = "ertyui1234567890";
        //  Log.d("MianBanJiActivity3", sss.substring(6, 14));
 
-//        serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), 8090);
-//        serverManager.setMyServeInterface(MianBanJiActivity3.this);
-//        serverManager.startServer();
+        serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), 8090);
+        serverManager.setMyServeInterface(MianBanJiActivity3.this);
+        serverManager.startServer();
+
+//        boolean isOn = AppInstaller.isAccessibilitySettingsOn(MianBanJiActivity3.this);
+//        if (!isOn) {
+//            AppInstaller.toAccessibilityService(MianBanJiActivity3.this);
+//        }
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+//                while (ispp){
+//                    SystemClock.sleep(2000);
+//                    Log.d("MianBanJiActivity3", "isRunningAppFront():" + isRunningAppFront(MianBanJiActivity3.this,getPackageName()));
+//                }
+//            }
+//        }).start();
 
 
     }
 
+//    boolean ispp=true;
+
+
+    /**
+     * 根据包名判断app是否在前台运行
+     * 只能判断自己
+     *
+     * @param packageName 包名
+     * @return
+     */
+    public  static boolean isRunningAppFront(Context context,String packageName) {
+        ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo processInfo: processes) {
+            Log.d("isRunningAppFront", processInfo.processName);
+            if (processInfo.processName.equals(packageName)) {
+                Log.d("isRunningAppFront", "进来");
+                if (processInfo.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    Log.d("isRunningAppFront", "启动");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     private class ReadThread extends Thread {
 
@@ -794,10 +851,24 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     }
 
 
+
+
     @Override
     protected void onResume() {
         Log.d("MianBanJiActivity3", "重新开始");
         super.onResume();
+
+        manager.open(getWindowManager(), SettingVar.cameraId, cameraWidth, cameraHeight);//前置是1
+        if (SettingVar.cameraId == 1) {
+            manager2.open(getWindowManager(), 0, cameraWidth, cameraHeight, SettingVar.cameraPreviewRotation2);//最后一个参数是红外预览方向
+        } else {
+            if (baoCunBean.isHuoTi())
+                manager2.open(getWindowManager(), 1, cameraWidth, cameraHeight, SettingVar.cameraPreviewRotation2);//最后一个参数是红外预览方向
+        }
+
+
+        mWatchDogCore.startBroadcastTask(); //启动开门狗定时广播任务
+        mWatchDogCore.startReceiveTask(); //启动监听看门狗定时任务
 
         if (mNfcAdapter != null) {
             mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, null, null);
@@ -1481,6 +1552,10 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         if (manager2 != null) {
             manager2.release();
         }
+
+        mWatchDogCore.cancelBroadcastTask();//取消开门狗定时广播任务
+        mWatchDogCore.cancelReceiveTask();//监听看门狗定时任务
+
         super.onStop();
     }
 
@@ -1499,7 +1574,6 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
     @Override
     protected void onDestroy() {
-
         Log.d("MianBanJiActivity3", "onDestroy");
         if (serverManager != null) {
             serverManager.stopServer();
@@ -1526,6 +1600,8 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         DengUT.closeWrite();
         DengUT.closeGreen();
         DengUT.closeRed();
+        //解绑看门狗
+        mWatchDogCore.unregisterWatchDogReceiver();
 
         super.onDestroy();
 
@@ -2105,6 +2181,10 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
     private void kaiPing() {
 
+        Intent intent = new Intent();
+        intent.setAction("LYD_SHOW_NAVIGATION_BAR");
+        intent.putExtra("type",1);
+        this.sendBroadcast(intent);
         sendBroadcast(new Intent("com.android.internal.policy.impl.showNavigationBar"));
         sendBroadcast(new Intent("com.android.systemui.statusbar.phone.statusopen"));
     }

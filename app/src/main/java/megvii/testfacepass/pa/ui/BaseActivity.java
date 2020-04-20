@@ -1,16 +1,16 @@
 package megvii.testfacepass.pa.ui;
 
 import android.Manifest;
+import android.app.AppOpsManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.pingan.ai.access.impl.OnPaAccessControlInitListener;
 import com.pingan.ai.access.manager.PaAccessControl;
 import com.pingan.ai.auth.common.SDKType;
@@ -65,7 +65,6 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         setContentView(R.layout.activity_base);
         baoCunBean=baoCunBeanBox.get(123456L);
 
-        MyApplication.myApplication.init();
         MyApplication.myApplication.addActivity(this);
 
         methodRequiresTwoPermission();
@@ -93,14 +92,44 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         if (EasyPermissions.hasPermissions(this, perms)) {
             // 已经得到许可，就去做吧 //第一次授权成功也会走这个方法
             Log.d("BaseActivity", "成功获得权限");
-
-           start();
+            boolean bb =hasPermission();
+            if (!bb){
+                startActivityForResult(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS),MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS);
+            }else {
+                start();
+            }
 
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(this, "需要授予app权限,请点击确定",
                     RC_CAMERA_AND_LOCATION, perms);
         }
+    }
+
+
+    private static final int MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS = 1101;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS) {
+            if (!hasPermission()) {
+                //若用户未开启权限，则引导用户开启“Apps with usage access”权限
+                startActivityForResult(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS),MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS);
+            }else {
+                start();
+            }
+        }
+    }
+
+
+    //检测用户是否对本app开启了“Apps with usage access”权限
+    private boolean hasPermission() {
+        AppOpsManager appOps = (AppOpsManager)
+                getSystemService(Context.APP_OPS_SERVICE);
+        int mode = 0;
+        mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(), getPackageName());
+        return mode == AppOpsManager.MODE_ALLOWED;
     }
 
     @Override

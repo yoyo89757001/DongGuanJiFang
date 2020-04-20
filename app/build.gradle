@@ -12,8 +12,8 @@ android {
         applicationId "com.ruitongai.mechanical"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 33
-        versionName "1.0.33"
+        versionCode 37
+        versionName "1.0.37"
         ndk {
             //选择要添加的对应cpu类型的.so库。
             abiFilters 'armeabi-v7a'

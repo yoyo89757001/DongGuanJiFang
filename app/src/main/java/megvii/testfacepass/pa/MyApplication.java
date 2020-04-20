@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
 import com.tencent.bugly.Bugly;
+import com.tencent.bugly.crashreport.CrashReport;
+
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -140,10 +142,10 @@ public class MyApplication extends Application implements Application.ActivityLi
         super.onCreate();
         myApplication = this;
         context = this.getApplicationContext();
+       // Bugly.init(getApplicationContext(), "b9917724d0", false);
+        init();
         BoxStore mBoxStore = MyObjectBox.builder().androidContext(this).build();
-
         Bugly.init(getApplicationContext(), "b9917724d0", false);
-
       //  Log.d("MyApplication","机器码"+ FileUtil.getSerialNumber(this) == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber(this));
         //全局dialog
         this.registerActivityLifecycleCallbacks(this);//注册
@@ -217,7 +219,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         if (baoCunBean == null) {
             baoCunBean = new BaoCunBean();
             baoCunBean.setId(123456L);
-            baoCunBean.setHoutaiDiZhi("http://hy.inteyeligence.com/front/wisdom/app/getInstructions");
+            baoCunBean.setHoutaiDiZhi("http://172.22.18.198");
             baoCunBean.setShibieFaceSize(50);
             baoCunBean.setShibieFaZhi(0.52f);
             baoCunBean.setRuKuFaceSize(70);

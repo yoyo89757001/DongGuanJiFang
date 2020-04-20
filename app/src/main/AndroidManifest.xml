@@ -111,6 +111,26 @@
         <!-- android:resource="@xml/auto_reply_service_config"/> -->
         <!-- </service> -->
 
+        <!-- 监听APP是否存活服务 -->
+        <service
+            android:name=".severs.MyAppService"
+            android:enabled="true"
+            android:exported="true" />
+
+<!--        <service-->
+<!--            android:name=".utils.AutoInstallService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/auto_service_title"-->
+<!--            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"-->
+<!--            android:process=":accessibility">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.accessibilityservice.AccessibilityService" />-->
+<!--            </intent-filter>-->
+<!--            <meta-data-->
+<!--                android:name="android.accessibilityservice"-->
+<!--                android:resource="@xml/accessibility" />-->
+<!--        </service>-->
 
         <service android:name=".dialogall.CommonDialogService" />
     </application>
@@ -143,6 +163,15 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-permission android:name="android.permission.GET_TOP_ACTIVITY_INFO"/>
+    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+
 
 
 </manifest>
