@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.tps401test"
+    android:versionCode="1"
+    android:versionName="1.0.3" >
+
+    <uses-permission android:name="android.permission.NFC" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Material" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.example.tps401test.flushled.FlushLedActivity">
+        </activity>
+        
+        <activity
+            android:name="com.example.tps401test.proximitysensor.ProximitySensorActivity">
+        </activity>
+        
+        <activity
+            android:name="com.example.tps401test.relay.RelayActivity">
+        </activity>
+        
+        <activity
+            android:name="com.example.tps401test.rs485.Rs485Activity">
+        </activity>
+         <activity
+            android:name="com.example.tps401test.rs485.Rs485_LocksActivity">
+        </activity>
+        
+        <activity
+            android:name="com.example.tps401test.nfc.NFCActivity"
+            android:launchMode="singleTask">
+        </activity>
+         <activity
+            android:name="com.example.tps401test.nfc.NFC_PN512_Activity"
+            android:launchMode="singleTask">
+        </activity>
+        
+        <activity
+            android:name="com.example.tps401test.contrl.ContrlActivity">
+        </activity>
+        
+        <activity
+            android:name="com.example.tps401test.belltest.BellTestActivity">
+        </activity>
+        
+        <activity
+            android:name="com.example.tps401test.colorled.ColorLedActivity">
+        </activity>
+       
+        <activity android:name="com.example.tps401test.led.LightnessActivity"></activity>
+        
+           <activity android:name="com.example.tps401test.led.LedLightTestActivity"></activity>
+        
+        <activity android:name="com.example.tps401test.camerapow.CameraPowActivity"></activity>
+        
+        <activity android:name="com.example.tps401test.led.LedActivity"></activity>
+        
+         <activity android:name="com.example.tps401test.led.LedCtrlActivity"></activity>
+       
+         
+         <activity android:name="com.example.tps401test.rstsim.RstSimActivity"></activity>
+       
+        
+        <activity android:name="com.example.tps401test.iotest.IOTestActivity"></activity>
+        
+        <activity android:name="com.example.tps401test.nfc.HSJ160TestActivity"></activity>
+       
+        <activity android:name="com.example.tps401test.nfc.HSJ260TestActivity"></activity>
+        
+        <activity android:name="com.example.tps401test.settime.SetTimeActivity"></activity>
+        
+        <activity android:name="com.example.tps401test.devicemanager.DeviceManagerActivity"></activity>
+        
+         <activity android:name="com.example.tps401test.idcard.Idcard_ACard_Activity"></activity>
+        
+        <activity android:name="com.example.tps401test.idcard.IdcardActivity_Combine"></activity>
+        
+        <service android:name="com.example.tps401test.proximitysensor.service.ProximityService"></service>
+        <service android:name="com.example.tps401test.contrl.service.ContrlService"></service>
+        <service android:name="com.example.tps401test.iotest.service.IOTestService"></service>
+    </application>
+
+</manifest>

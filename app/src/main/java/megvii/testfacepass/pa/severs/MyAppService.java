@@ -41,11 +41,7 @@ public class MyAppService extends Service {
                         Thread.sleep(APPSERVICE_SECOND);//50秒
 
 
-
-
-
-
-                        Log.e("MyAppService", "MyAppService.服务运行isRuning=" + isRuning + ",activeCount=" + Thread.activeCount());//返回当前线程的线程组中活动线程的数量
+                        Log.e("MyAppService", "MyAppService.服务运行isRuning=" + isRuning  );//返回当前线程的线程组中活动线程的数量Thread.activeCount()
                         if (isRuning) {
                             //判断是否在前台运行
                             boolean isOnForegroundNew = isRunningOnForeground(MyApplication.myApplication);

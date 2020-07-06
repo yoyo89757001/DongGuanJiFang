@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/led/LedLightTestActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/led/LightnessActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/nfc/HSJ160TestActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/nfc/HSJ260TestActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/proximitysensor/ProximitySensorActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/proximitysensor/service/ProximityService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/relay/RelayActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/rs485/Rs485_LocksActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tianbo/src/main/java/com/example/tps401test/settime/SetTimeActivity.java" charset="UTF-8" />
+  </component>
+</project>

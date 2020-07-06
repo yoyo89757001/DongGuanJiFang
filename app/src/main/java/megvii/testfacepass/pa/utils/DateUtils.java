@@ -104,12 +104,15 @@ public class DateUtils {
 
     public static long date2TimeStamp(String date) {
         try {
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date dater=sdf.parse(date);
+
             if (dater!=null){
                 return dater.getTime();
             }else
                 return 0;
+
         } catch (Exception e) {
             e.printStackTrace();
         }

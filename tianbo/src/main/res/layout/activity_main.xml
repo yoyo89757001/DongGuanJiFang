@@ -1,0 +1,123 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/bt_flush_led_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toFlush_led_title"
+        android:visibility="gone"
+        android:text="@string/bt_flush_led_title" />
+
+    <Button
+        android:id="@+id/bt_proximity_sensor_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toProximity_sensor_title"
+        android:text="@string/bt_proximity_sensor_title" />
+
+    <Button
+        android:id="@+id/bt_relay_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toRelay_title"
+        android:text="@string/bt_relay_title" />
+    
+    <Button
+        android:id="@+id/bt_rs485_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toRs485_title"
+        android:text="@string/bt_rs485_title" />
+    
+    <Button
+        android:id="@+id/bt_nfc_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         android:onClick="toNfc_title"
+        android:text="@string/bt_nfc_title" />
+    
+    <Button
+        android:id="@+id/bt_contrl_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toContrl_title"
+        android:visibility="gone"
+        android:text="@string/bt_contrl_title" />
+    
+    <Button
+        android:id="@+id/bt_led_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         android:onClick="toLed_title"
+         android:visibility="gone"
+        android:text="@string/bt_led_title" />
+    
+    <Button
+        android:id="@+id/btn_ring"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toRing"
+        android:visibility="gone"
+        android:text="门铃" /> 
+       
+    <Button
+        android:id="@+id/btn_blue_green_red_led"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toBlue_green_red_led"
+        android:visibility="gone"
+        android:text="三色灯" /> 
+
+    <Button
+        android:id="@+id/btn_lightness"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         android:onClick="toLightness"
+        android:text="led灯亮度" />
+    
+    <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         android:onClick="toCamera"
+        android:text="摄像头上下电" />
+     <Button
+        android:id="@+id/btn_card_hsj160"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         android:onClick="toHsj160_idcard"
+         android:visibility="gone"
+        android:text="hsj160 ID卡" />
+      <Button
+        android:id="@+id/btn_card_hsj260"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="toHsj260_idcard"
+        android:visibility="gone"
+        android:text="hsj260 ID卡" />
+
+      <Button
+          android:id="@+id/btn_setTime"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:onClick="toSetTime"
+          android:text="时间设置" />
+      
+       <Button
+          android:id="@+id/btn_setDevice"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+            android:onClick="toSetDevice"
+          android:text="开关机设置" />
+
+       <Button
+           android:id="@+id/btn_idcard"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+            android:onClick="toIdcard"
+           android:text="身份证模块测试" />
+    
+</LinearLayout>

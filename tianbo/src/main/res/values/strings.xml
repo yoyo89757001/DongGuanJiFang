@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TPS401</string>
+    
+    <string name="bt_flush_led_title">FLUSH LED</string>
+    <string name="bt_flush_led_open">OPEN</string>
+    <string name="bt_flush_led_close">CLOSE</string>
+    
+    <string name="bt_proximity_sensor_title">PROXIMITY SENSOR</string>
+    <string name="tv_proximity_sensor_someone">SOMEONE</string>
+    <string name="tv_proximity_sensor_none">NONE</string>
+    <string name="tv_proximity_sensor_error">ERROR</string>
+    <string name="start_service">start_service</string>
+    <string name="stop_service">stop_service</string>
+    
+    <string name="bt_relay_title">RELAY</string>
+    <string name="bt_relay_open">OPEN</string>
+    <string name="bt_relay_close">CLOSE</string>
+    
+    <string name="bt_rs485_title">RS485</string>
+    <string name="bt_rs485_send">SWITCH TO SEND MODE</string>
+    <string name="bt_rs485_receive">SWITCH TO RECEIVE MODE</string>
+    
+    <string name="bt_nfc_title">NFC</string>
+    <string name="tv_nfc_notsupport">The device does not support NFC</string>
+    <string name="tv_nfc_working">Please Swipe Your Card</string>
+    <string name="tv_nfc_notwork">Please Go To Settings And Open The NFC Switch</string>
+    
+    <string name="bt_contrl_title">Control</string>
+    <string name="remove">Remove</string>
+    <string name="not_remove">Not remove</string>
+    
+    <string name="bt_led_title">LED</string>
+    <string name="bt_led_open">OPEN</string>
+    <string name="bt_led_close">CLOSE</string>
+    
+    <string name="camera0_close">camera0 close</string>
+    <string name="camera0_open">camera1 open</string>
+    <string name="camera1_close">camera0 close</string>
+    <string name="camera1_open">camera1 open</string>
+    <string name="camera">camera</string>
+ <!-- ID Card -->
+    <string name="identity_test">身份证识别</string>
+    <string name="bl_xsdxx"> 请放置身份证...</string>
+    <string name="idcard_czz">操作中</string>
+    <string name="idcard_ljdkq">连接读卡器...</string>
+    <string name="idcard_ljdkqcg">连接读卡器成功</string>
+    <string name="idcard_wfljdkq">无法连接读卡器</string>
+    <string name="idcard_dqsbhcs">身份证模块连接失败</string>
+    <string name="idcard_xm">姓名：</string>
+    <string name="idcard_xb">性别：</string>
+    <string name="idcard_mz">民族：</string>
+    <string name="idcard_csrq">出生日期：</string>
+    <string name="idcard_dz">地址：</string>
+    <string name="idcard_country">国籍或所在地区代码：</string>
+    <string name="idcard_cn_name">中文姓名：</string>
+    <string name="idcard_version">证件版本号：</string>
+    <string name="idcard_sfhm">身份证号码：</string>
+    <string name="idcard_qzjg">签发机关：</string>
+    <string name="idcard_yxqx">"有效期限："</string>
+    <string name="idcard_txzhm">"通行证号码："</string>
+    <string name="idcard_qfcs">"签发次数："</string>
+    <string name="idcard_zjlxbs">"证件类型标识："</string>
+    <string name="idcard_hqsfzxx">串口/USB读取身份证</string>
+    <string name="idcard_bt_hqsfzxx">蓝牙读取身份证</string>
+    <string name="idcard_dqzwy">打开指纹仪</string>
+    <string name="idcard_gbzwy">关闭指纹仪</string>
+    <string name="idcard_xzgn">选择功能</string>
+    <string name="idcard_xzsfsbfs">请选择身份证识别方式</string>
+    <string name="idcard_sxtsb">摄像头OCR识别</string>
+    <string name="idcard_dkqsb">"二代证读卡器识别"</string>
+	<string name="select_show_head_photo">是否显示头像</string>
+    <string name="select_show_head_photo_true">是</string>
+    <string name="select_show_head_photo_false">否</string>
+    <string name="get_id_front_fail">获取身份证正面信息失败</string>
+    <string name="get_id_front_success">获取身份证正面信息成功</string>
+    <string name="get_id_back_fail">获取身份证反面信息失败</string>
+    <string name="get_id_back_success">获取身份证反面信息成功</string>
+    <string name="identify_fail">未安装API模块，无法进行二维码/身份证识别</string>
+    <string name="none">无</string>
+    <string name="idCard_front_info">身份证正面信息</string>
+    <string name="idCard_back_info">身份证反面信息</string>
+    <string name="idcard_zwxx">指纹信息：</string>
+    <string name="idcard_ysmz">右手拇指</string>
+    <string name="idcard_yssz">右手食指</string>
+    <string name="idcard_yszz">右手中指</string>
+    <string name="idcard_yshz">右手环指</string>
+    <string name="idcard_ysxz">右手小指</string>
+    <string name="idcard_zsmz">左手拇指</string>
+    <string name="idcard_zssz">左手食指</string>
+    <string name="idcard_zszz">左手中指</string>
+    <string name="idcard_zshz">左手环指</string>
+    <string name="idcard_zsxz">左手小指</string>
+    <string name="idcard_ysbqdzw">右手不确定指位</string>
+    <string name="idcard_zsbqdzw">左手不确定指位</string>
+    <string name="idcard_qtbqdzw">其他不确定指位</string>
+    <string name="idcard_zwwz">指位未知</string>
+    <string name="idcard_zccg">注册成功</string>
+    <string name="idcard_zcsb">注册失败</string>
+    <string name="idcard_wzc">未注册</string>
+    <string name="idcard_zcztwz">注册状态未知</string>
+    <string name="idcard_zwzl">指纹质量=</string>
+    <string name="idcard_wdqhbhzw">(指纹未读取或不含指纹)</string>
+</resources>
