@@ -57,12 +57,12 @@ public class FacePassUtil {
                                // config.mouthOccAttributeModel = FacePassModel.initModel(MyApplication.myApplication.getAssets(), "attribute.mouth.occ.gray.12M.190930.bin");
                                 //config.smileModel = FacePassModel.initModel(getApplicationContext().getAssets(), "attr.smile.mgf29.0.1.1.181229.bin");
                                 //config.ageGenderModel = FacePassModel.initModel(getApplicationContext().getAssets(), "attr.age_gender.surveillance.nnie.av200.0.1.0.190630.bin");
-                                //config.occlusionFilterModel = FacePassModel.initModel(getApplicationContext().getAssets(), "occlusion.all_attr_configurable.occ.190816.bin");
+                                config.occlusionFilterModel = FacePassModel.initModel(MyApplication.myApplication.getAssets(), "occlusion.all_attr_configurable.occ.190816.bin");
                                 //如果不需要表情和年龄性别功能，smileModel和ageGenderModel可以为null
                                 //config.smileModel = null;
                                 //config.ageGenderModel = null;
                                 //config.occlusionFilterEnabled=true;
-                                //config.occlusionFilterEnabled = true;
+                                config.occlusionFilterEnabled = true;
                                 config.mouthOccAttributeEnabled = false;
                                 config.rgbIrLivenessEnabled = false;
                                 config.smileEnabled = false;
@@ -109,8 +109,6 @@ public class FacePassUtil {
                                         EventBus.getDefault().post("mFacePassHandler");
                                     }
                                 });
-
-
 
                             } catch (FacePassException e) {
                                 e.printStackTrace();

@@ -12,8 +12,8 @@ android {
         applicationId "com.ruitongai.mechanical2"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 37
-        versionName "1.0.37"
+        versionCode 38
+        versionName "1.0.38"
         ndk {
             //选择要添加的对应cpu类型的.so库。
             abiFilters 'armeabi-v7a'
@@ -66,6 +66,8 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'com/META-INF/MANIFEST.MF'
+        exclude 'META-INF/io.netty.versions.properties'
+        exclude 'META-INF/INDEX.LIST'
         exclude 'META-INF/maven/org.java-websocket/Java-WebSocket/pom.xml'
     }
 }
@@ -124,12 +126,15 @@ dependencies {
     implementation group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12' //导出wps
     implementation 'com.zyao89:zloading:1.2.0'//加载框
     implementation 'pub.devrel:easypermissions:3.0.0'//6。0权限
-    implementation 'com.yanzhenjie.andserver:api:2.0.5'//小服务器
-    annotationProcessor 'com.yanzhenjie.andserver:processor:2.0.5'//小服务器
+    //implementation 'com.yanzhenjie.andserver:api:2.0.5'//小服务器
+    //annotationProcessor 'com.yanzhenjie.andserver:processor:2.0.5'//小服务器
     //implementation 'me.jessyan:autosize:1.1.2'//屏幕适配
-    implementation 'com.alibaba:fastjson:1.1.71.android'
+    implementation 'com.alibaba:fastjson:1.2.69'
     implementation 'top.zibin:Luban-turbo:1.0.0'//鲁班压缩
+  //  implementation 'org.apache.rocketmq:rocketmq-client:4.7.1'//mq消息队列
   //  implementation 'com.github.licheedev.Android-SerialPort-API:serialport:1.0.1'
+    implementation 'com.rabbitmq:amqp-client:5.9.0'
+   // implementation 'com.rabbitmq:amqp-client:4.12.0'
 
 }
 // 指定com.android.support 包的版本一致
