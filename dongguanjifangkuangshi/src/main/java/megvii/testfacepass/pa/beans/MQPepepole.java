@@ -19,11 +19,12 @@ public class MQPepepole {
     private int instructions;
     private String icCard;
     private String visitorName;
-    private String visitorId;
+    private Long faceId;
     private String authStartDate;
     private String authEndDate;
     private String machineCode;
     private String pushDate;
+
 
     public String getVisitorImg() {
         return visitorImg;
@@ -57,12 +58,12 @@ public class MQPepepole {
         this.visitorName = visitorName;
     }
 
-    public String getVisitorId() {
-        return visitorId;
+    public Long getFaceId() {
+        return faceId;
     }
 
-    public void setVisitorId(String visitorId) {
-        this.visitorId = visitorId;
+    public void setFaceId(Long faceId) {
+        this.faceId = faceId;
     }
 
     public String getAuthStartDate() {
@@ -97,6 +98,7 @@ public class MQPepepole {
         this.pushDate = pushDate;
     }
 
+
     @Override
     public String toString() {
         return "MQPepepole{" +
@@ -104,7 +106,7 @@ public class MQPepepole {
                 ", instructions=" + instructions +
                 ", icCard='" + icCard + '\'' +
                 ", visitorName='" + visitorName + '\'' +
-                ", visitorId='" + visitorId + '\'' +
+                ", faceId=" + faceId +
                 ", authStartDate='" + authStartDate + '\'' +
                 ", authEndDate='" + authEndDate + '\'' +
                 ", machineCode='" + machineCode + '\'' +
