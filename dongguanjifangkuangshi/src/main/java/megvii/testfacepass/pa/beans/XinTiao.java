@@ -2,9 +2,11 @@ package megvii.testfacepass.pa.beans;
 
 public class XinTiao {
 
-    private String ip;
+    private String machineIp;
     private String machineCode;
     private String pushDate;
+    private int machineStatus;
+
 
     public String getPushDate() {
         return pushDate;
@@ -14,12 +16,20 @@ public class XinTiao {
         this.pushDate = pushDate;
     }
 
-    public String getIp() {
-        return ip;
+    public String getMachineIp() {
+        return machineIp;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setMachineIp(String machineIp) {
+        this.machineIp = machineIp;
+    }
+
+    public int getMachineStatus() {
+        return machineStatus;
+    }
+
+    public void setMachineStatus(int machineStatus) {
+        this.machineStatus = machineStatus;
     }
 
     public String getMachineCode() {

@@ -24,7 +24,15 @@ public class MQPepepole {
     private String authEndDate;
     private String machineCode;
     private String pushDate;
+    private int visitorType;//"1",#访客类型:1内部员工 2外部访客 3 未知类型
 
+    public int getVisitorType() {
+        return visitorType;
+    }
+
+    public void setVisitorType(int visitorType) {
+        this.visitorType = visitorType;
+    }
 
     public String getVisitorImg() {
         return visitorImg;

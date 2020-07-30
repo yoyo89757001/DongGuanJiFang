@@ -4,11 +4,45 @@ public class UpdataFaceMessage {
 
     private long faceId;
     private String catchFaceImg;
-    private String compareResult;
     private String machineCode;
     private String ip;
     private String pushDate;
+    private int visitorType;
+    private String icCard;
+    private int faceCompareResult;//1,#人脸比对结果:0失败,1成功
+    private int cardCompareResult;//1,#刷卡结果:0失败,1成功
 
+    public String getIcCard() {
+        return icCard;
+    }
+
+    public void setIcCard(String icCard) {
+        this.icCard = icCard;
+    }
+
+    public int getFaceCompareResult() {
+        return faceCompareResult;
+    }
+
+    public void setFaceCompareResult(int faceCompareResult) {
+        this.faceCompareResult = faceCompareResult;
+    }
+
+    public int getCardCompareResult() {
+        return cardCompareResult;
+    }
+
+    public void setCardCompareResult(int cardCompareResult) {
+        this.cardCompareResult = cardCompareResult;
+    }
+
+    public int getVisitorType() {
+        return visitorType;
+    }
+
+    public void setVisitorType(int visitorType) {
+        this.visitorType = visitorType;
+    }
 
     public long getFaceId() {
         return faceId;
@@ -24,14 +58,6 @@ public class UpdataFaceMessage {
 
     public void setCatchFaceImg(String catchFaceImg) {
         this.catchFaceImg = catchFaceImg;
-    }
-
-    public String getCompareResult() {
-        return compareResult;
-    }
-
-    public void setCompareResult(String compareResult) {
-        this.compareResult = compareResult;
     }
 
     public String getMachineCode() {

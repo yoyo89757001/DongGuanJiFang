@@ -35,7 +35,7 @@ public class DongGuanView extends View {
     private boolean isTC;
     private Bitmap touxiang=null;
     private String name;
-    private int frameHeight,frameWidth,w2,h2;
+    //private int frameHeight,frameWidth,w2,h2;
     private String quanxian="无进入权限";
     private String shuaka="请刷ID卡";
     private boolean isOPen=false;

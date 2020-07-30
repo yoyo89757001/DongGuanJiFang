@@ -7,6 +7,16 @@ public class ResultFaceMessage {//发送执行结果
     private String msg;
     private String ip;
     private String pushDate;
+    private int visitorType;
+
+
+    public int getVisitorType() {
+        return visitorType;
+    }
+
+    public void setVisitorType(int visitorType) {
+        this.visitorType = visitorType;
+    }
 
     public long getFaceId() {
         return faceId;
