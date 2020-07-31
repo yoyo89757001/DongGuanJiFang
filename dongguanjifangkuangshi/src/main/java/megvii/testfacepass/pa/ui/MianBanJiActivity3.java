@@ -235,18 +235,18 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     private Connection mConnection;
 
 
-    private final static String QUEUE_NAME_YW = "PQEB-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
-    private final static String QUEUE_NAME_XT = "PEXH-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
-    private final static String EXCHANG_NAME_YW = "PEXB-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
-    private final static String KEY_NAME_YW = "PKB-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
+    private final static String QUEUE_NAME_YW = "que.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
+    private final static String EXCHANG_NAME_XT = "ex.panel.heart."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
+    private final static String EXCHANG_NAME_YW = "ex.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
+    private final static String KEY_NAME_YW = "key.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
 
-    private final static String EXCHANG_NAME_RES = "PEXFC-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
-    private final static String EXCHANG_NAME_UP = "PEXCP-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//识别结果
+    private final static String EXCHANG_NAME_RES = "ex.panel.checkin."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
+    private final static String EXCHANG_NAME_UP = "ex.panel.compare."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//识别结果
 
-    private final static String KEY_NAME_RES = "PKFC-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
-    private final static String KEY_NAME_UP = "PKCP-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//识别结果推送
+    private final static String KEY_NAME_RES = "key.panel.checkin."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
+    private final static String KEY_NAME_UP = "key.panel.compare."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//识别结果推送
 
-    private final static String KEY_NAME_XT = "PKH-"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
+    private final static String KEY_NAME_XT = "key.panel.heart."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
 
     private final String[][] mTechList = new String[][] { { NfcA.class.getName() }, { IsoDep.class.getName() }
             , { NfcB.class.getName() }, { NfcF.class.getName() }
@@ -416,10 +416,10 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         if (subject.getTeZhengMa() != null) {//在库人员
                             if (subject.getIsOpen() == 0) {//开门
                                 try {
-                                    faceView.setTC(paAccessControl.getFaceImage(subject.getTeZhengMa().getBytes())
-                                            , subject.getName(), true);
+                                    faceView.setTC(paAccessControl.getFaceImage(subject.getTeZhengMa().getBytes()), subject.getName(), true);
                                 } catch (FacePassException e) {
                                     e.printStackTrace();
+                                    Log.d("MianBanJiActivity3", e.getMessage()+"弹窗异常1");
                                 }
                                 isOpenFace = true;
                                 stopMedie();
@@ -430,6 +430,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                                             , subject.getName(), false);
                                 } catch (FacePassException e) {
                                     e.printStackTrace();
+                                    Log.d("MianBanJiActivity3", e.getMessage()+"弹窗异常2");
                                 }
                                 isOpenFace = false;
                                 stopMedie();
@@ -1493,6 +1494,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                                                         timePeriod.setTime(startTime+"T"+maxTime);
                                                         timePeriodBox.put(timePeriod);
                                                         Log.d("TanChuangThread", "在左边交集");
+                                                       // break;
                                                     }else {//在左边交集，取左边最小，和右边最大
                                                         timePeriod.setTime(minTime+"T"+endTime);
                                                         timePeriodBox.put(timePeriod);
@@ -1978,15 +1980,13 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         xinTiao.setMachineStatus(1);
         xinTiao.setPushDate(DateUtils.time22(System.currentTimeMillis()+""));
         String ms= JSONObject.toJSONString(xinTiao);
-
-
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     if (channel_xt!=null){
                         channel_xt.confirmSelect();
-                        channel_xt.basicPublish(QUEUE_NAME_XT, KEY_NAME_XT, null, ms.getBytes(StandardCharsets.UTF_8));
+                        channel_xt.basicPublish(EXCHANG_NAME_XT, KEY_NAME_XT, null, ms.getBytes(StandardCharsets.UTF_8));
                         boolean t=  channel_xt.waitForConfirms();
                         Log.d("MianBanJiActivity3", "发送MQ消息结果:" + t+" 发送参数:"+ms);
                     }
@@ -2620,7 +2620,6 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
             if (zhishuaka) {
                 openCard(sdfds);
             } else {
-
                 if (subjectOnly != null && subjectOnly.getWorkNumber() != null && !subjectOnly.getWorkNumber().equals("")) {
                     //  Log.d("MianBanJiActivity3", "getWorkNumber:"+subjectOnly.getWorkNumber());
                     Subject subject = subjectOnly;
@@ -2662,19 +2661,9 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                                     soundPool.play(musicId.get(1), 1, 1, 0, 0, 1);
                                 }
                             });
-                            sendAsyncMessage_up(-1,msrBitmap,subjectOnly.getDaka(),finalSdfds,1,1);
                             //上传识别记录
-
-//                            DaKaBean daKaBean = new DaKaBean();
-//                            daKaBean.setName(subject.getName());
-//                            daKaBean.setBumen(sdfds);
-//                            daKaBean.setDianhua(subject.getCompanyId());
-//                            daKaBean.setRenyuanleixing(subject.getPeopleType());
-//                            daKaBean.setB64(BitmapUtil.bitmapToBase64(BitmapUtil.rotateBitmap(msrBitmap, SettingVar.msrBitmapRotation)));
-//                            daKaBean.setTime(DateUtils.time22(System.currentTimeMillis() + ""));
-//                            daKaBeanBox.put(daKaBean);
+                            sendAsyncMessage_up(subject.getId(),msrBitmap,subject.getDaka(),finalSdfds,1,1);
                         }
-
 //                    link_chick_IC(sdfds, name);
                     } else {
                         Toast tastyToast = TastyToast.makeText(MianBanJiActivity3.this, "人脸信息与卡号不匹配!", TastyToast.LENGTH_LONG, TastyToast.ERROR);
