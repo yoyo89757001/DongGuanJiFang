@@ -9,7 +9,7 @@ public class TimePeriod {
 
     @Id
     Long id;
-    Long sid;//人员id
+    String sid;//人员id
     String time;
 
     public Long getId() {
@@ -20,11 +20,11 @@ public class TimePeriod {
         this.id = id;
     }
 
-    public Long getSid() {
+    public String getSid() {
         return sid;
     }
 
-    public void setSid(Long sid) {
+    public void setSid(String sid) {
         this.sid = sid;
     }
 

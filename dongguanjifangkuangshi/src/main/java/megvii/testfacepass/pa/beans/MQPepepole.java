@@ -19,12 +19,21 @@ public class MQPepepole {
     private int instructions;
     private String icCard;
     private String visitorName;
-    private Long faceId;
+    private String faceId;
     private String authStartDate;
     private String authEndDate;
     private String machineCode;
     private String pushDate;
     private int visitorType;//"1",#访客类型:1内部员工 2外部访客 3 未知类型
+    private String batchCode;
+
+    public String getBatchCode() {
+        return batchCode;
+    }
+
+    public void setBatchCode(String batchCode) {
+        this.batchCode = batchCode;
+    }
 
     public int getVisitorType() {
         return visitorType;
@@ -66,11 +75,11 @@ public class MQPepepole {
         this.visitorName = visitorName;
     }
 
-    public Long getFaceId() {
+    public String getFaceId() {
         return faceId;
     }
 
-    public void setFaceId(Long faceId) {
+    public void setFaceId(String faceId) {
         this.faceId = faceId;
     }
 
