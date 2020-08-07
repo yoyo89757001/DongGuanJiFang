@@ -57,6 +57,7 @@ public class RabbitMQUtil {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    mqshow.setText("创建MQ失败");
                     mqshow.setVisibility(View.VISIBLE);
                 }
             });

@@ -12,6 +12,42 @@ public class ResultFaceMessage {//发送执行结果
     private int result;//#入库结果:0失败 1成功
     private String icCard;//#实际刷的卡号
     private String catchFaceImg;
+    private int faceCompareResult;
+    private int cardCompareResult;
+    private String remainingMemory;
+    private int allPeopleSize;
+
+    public String getRemainingMemory() {
+        return remainingMemory;
+    }
+
+    public void setRemainingMemory(String remainingMemory) {
+        this.remainingMemory = remainingMemory;
+    }
+
+    public int getAllPeopleSize() {
+        return allPeopleSize;
+    }
+
+    public void setAllPeopleSize(int allPeopleSize) {
+        this.allPeopleSize = allPeopleSize;
+    }
+
+    public int getFaceCompareResult() {
+        return faceCompareResult;
+    }
+
+    public void setFaceCompareResult(int faceCompareResult) {
+        this.faceCompareResult = faceCompareResult;
+    }
+
+    public int getCardCompareResult() {
+        return cardCompareResult;
+    }
+
+    public void setCardCompareResult(int cardCompareResult) {
+        this.cardCompareResult = cardCompareResult;
+    }
 
     public String getCatchFaceImg() {
         return catchFaceImg;

@@ -196,7 +196,7 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
 
     private  void singleCertification() throws IOException {
         //  String cert = readExternal(CERT_PATH).trim();
-        String active="a01ae65c6d1ca07cd779295632e55bead000024";
+        String active="v76a87c365b73592cc15a6c532dce3d4c000036";
       String  cert="\"{\"\"serial\"\":\"\"m00420764abde7861a9499f135641501301d9\"\",\"\"key\"\":\"\"d773e499d7987dee4a3b9fe607853b364bf09504e148787d4c51e762bb029e165137f5a1b2533768ad64cde31cfc20fc0f818ac120de0cdfba564b6c052244e392c424d99ab6dd6028cc3f6a8ce8d21b7344bc1d6d4bf9e470dca6120fc3ced81b90c7899cc761b4daf30b181fb69881559f0c7689d37c8f575483ea5b353787502c2528f43b8f04181237dc9a88ddc97e4cb1ad4e56d77726a7efba9b57f07da19531c47609de8c017edac474a31e6b066f3fbc99fd01589257592ad5223ddb\"\",\"\"counting_logic\"\":\"\"\"\"}\"\n";
       if (TextUtils.isEmpty(cert)|| TextUtils.isEmpty(active)){
             EventBus.getDefault().post("授权文件为空");

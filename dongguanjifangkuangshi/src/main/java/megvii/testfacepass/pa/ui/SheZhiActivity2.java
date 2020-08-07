@@ -362,7 +362,7 @@ public class SheZhiActivity2 extends Activity {
                         baoCunBean.setLeixing(bangDingDialog.getLeiXing());
                         baoCunBean.setWeizhi(bangDingDialog.getWeizhi());
                         baoCunBeanDao.put(baoCunBean);
-                        if (FileUtil.getIPAddress(getApplicationContext())==null){
+                        if (FileUtil.getLocalHostIp()==null){
                             TastyToast.makeText(SheZhiActivity2.this,"请先连接网络",TastyToast.LENGTH_LONG,TastyToast.ERROR).show();
                             return;
                         }
@@ -858,7 +858,7 @@ public class SheZhiActivity2 extends Activity {
                 .add("machineType","1")
                 .add("floor",leixing)
                 .add("machineCode", FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber())
-                .add("machineUrl", "http://"+Objects.requireNonNull(FileUtil.getIPAddress(getApplicationContext()))+":8090/app")
+                .add("machineUrl", "http://"+Objects.requireNonNull(FileUtil.getLocalHostIp())+":8090/app")
                 .add("machineAddress", weizhi)
                 .build();
         Request.Builder requestBuilder = new Request.Builder()
