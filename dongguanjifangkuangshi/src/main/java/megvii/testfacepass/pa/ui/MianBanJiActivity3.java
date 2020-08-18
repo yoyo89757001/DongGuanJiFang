@@ -1339,7 +1339,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
     private void removePepole(Subject subject){
         try {
-            List<TimePeriod> timePeriodList=timePeriodBox.query().equal(TimePeriod_.sid,subject.getId()).build().find();
+            List<TimePeriod> timePeriodList=timePeriodBox.query().equal(TimePeriod_.sid,subject.getSid()).build().find();
             for (TimePeriod timePeriod : timePeriodList) {
                 timePeriodBox.remove(timePeriod);
             }
@@ -1983,32 +1983,36 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                List<Subject> longList=new ArrayList<>();
-                                LazyList<Subject> subjectLazyList=subjectBox.query().build().findLazy();
-                                long time=System.currentTimeMillis();
-                                for (Subject subject : subjectLazyList) {
-                                    List<TimePeriod> timePeriodList=timePeriodBox.query().equal(TimePeriod_.sid,subject.getId()).build().find();
-                                    boolean isGQ=false,isSC=true;
-                                    for (TimePeriod timePeriod : timePeriodList) {
-                                        long minTime= Long.parseLong(timePeriod.getTime().split("T")[0]);
-                                        long maxTime= Long.parseLong(timePeriod.getTime().split("T")[1]);
-                                        if (time>=minTime && time<=maxTime){//在范围内
-                                            isGQ=true;
-                                            break;
-                                        }else {
-                                            if (minTime>time){
-                                                isSC=false;
+                                try {
+                                    List<Subject> longList=new ArrayList<>();
+                                    LazyList<Subject> subjectLazyList=subjectBox.query().build().findLazy();
+                                    long time=System.currentTimeMillis();
+                                    for (Subject subject : subjectLazyList) {
+                                        List<TimePeriod> timePeriodList=timePeriodBox.query().equal(TimePeriod_.sid,subject.getSid()).build().find();
+                                        boolean isGQ=false,isSC=true;
+                                        for (TimePeriod timePeriod : timePeriodList) {
+                                            long minTime= Long.parseLong(timePeriod.getTime().split("T")[0]);
+                                            long maxTime= Long.parseLong(timePeriod.getTime().split("T")[1]);
+                                            if (time>=minTime && time<=maxTime){//在范围内
+                                                isGQ=true;
+                                                break;
+                                            }else {
+                                                if (minTime>time){
+                                                    isSC=false;
+                                                }
+                                            }
+                                        }
+                                        if (!isGQ){
+                                            if (isSC){
+                                                longList.add(subject);
                                             }
                                         }
                                     }
-                                    if (!isGQ){
-                                        if (isSC){
-                                            longList.add(subject);
-                                        }
+                                    for (Subject subject : longList) {
+                                        removePepole(subject);
                                     }
-                                }
-                                for (Subject subject : longList) {
-                                    removePepole(subject);
+                                }catch (Exception e){
+                                    e.printStackTrace();
                                 }
                             }
                         }).start();
@@ -2062,7 +2066,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 //                        }
 //                    }).start();
 
-                    sendAsyncMessage_Rest(null,null,0,-1,null,null,1,100,0,0,AppUtils.queryStorage(),subjectBox.query().build().findLazy().size());
+                    sendAsyncMessage_Rest(null,null,0,-1,null,null,1,100,0,0,AppUtils.queryStorage(),subjectBox.query().build().findLazy().size(),AppUtils.queryMemmoryTotal());
 
 //{"result":[{"image":"http:192.168.2.121:8980/userfiles/fileupload/202005/1259733916046864386.jpg","instructions":"1","cardID":"E2B32712","jurisdiction":"0","name":"军总","id":"1259734117369262080","beginTime":"2020-05-11 14:36:33","endTime":"2021-05-11 14:36:32","personType":"0","subjectId":"1259734038776393728"}],"code":200,"machineCode":"4053132e72569d","desc":"成功"}
                     break;
@@ -2109,7 +2113,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         channel_res.confirmSelect();
                         channel_res.basicPublish(EXCHANG_NAME_RES, KEY_NAME_RES, null, ms.getBytes(StandardCharsets.UTF_8));
                         boolean t=  channel_res.waitForConfirms();
-                      //  Log.d("MianBanJiActivity3", "发送MQ消息结果:" + t+" 发送参数:"+ms);
+                        Log.d("MianBanJiActivity3", "发送MQ消息结果:" + t+" 发送参数:"+ms);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -2118,7 +2122,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         }).start();
     }
 
-    public void sendAsyncMessage_Rest(String faceId,Bitmap bitmap,int result,int visitorType,String batchCode,String icCard,int machineStatus,int businessType,int faceCompareResult,int cardCompareResult,String remainingMemory,int allPeopleSize) {//处理结果回调
+    public void sendAsyncMessage_Rest(String faceId,Bitmap bitmap,int result,int visitorType,String batchCode,String icCard,int machineStatus,int businessType,int faceCompareResult,int cardCompareResult,String remainingMemory,int allPeopleSize,String memoryTotal) {//处理结果回调
         ResultFaceMessage faceMessage=new ResultFaceMessage();
         if (bitmap!=null){
             bitmap=BitmapUtil.rotateBitmap(bitmap,SettingVar.msrBitmapRotation);
@@ -2135,6 +2139,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         faceMessage.setCardCompareResult(cardCompareResult);
         faceMessage.setMachineStatus(machineStatus);
         faceMessage.setBusinessType(businessType);
+        faceMessage.setMemoryTotal(memoryTotal);
         faceMessage.setPushDate(DateUtils.time22(System.currentTimeMillis()+""));
         faceMessage.setRemainingMemory(remainingMemory);
         faceMessage.setAllPeopleSize(allPeopleSize);

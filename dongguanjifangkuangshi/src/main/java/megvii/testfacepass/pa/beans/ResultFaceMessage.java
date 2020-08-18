@@ -16,6 +16,17 @@ public class ResultFaceMessage {//发送执行结果
     private int cardCompareResult;
     private String remainingMemory;
     private int allPeopleSize;
+    private String memoryTotal;
+
+
+
+    public String getMemoryTotal() {
+        return memoryTotal;
+    }
+
+    public void setMemoryTotal(String memoryTotal) {
+        this.memoryTotal = memoryTotal;
+    }
 
     public String getRemainingMemory() {
         return remainingMemory;
