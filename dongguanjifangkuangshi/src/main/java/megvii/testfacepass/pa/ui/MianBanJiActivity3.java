@@ -71,9 +71,13 @@ import com.telpo.nfcpacemaker.aidl.INfcPacemaker;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -237,17 +241,17 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     private Connection mConnection;
 
 
-    private final static String QUEUE_NAME_YW = "que.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
-    private final static String EXCHANG_NAME_YW = "ex.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
-    private final static String KEY_NAME_YW = "key.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
+    private  String QUEUE_NAME_YW = "que.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
+    private  String EXCHANG_NAME_YW = "ex.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
+    private  String KEY_NAME_YW = "key.panel.auth."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
 
     //private final static String EXCHANG_NAME_XT = "ex.panel.heart."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());
 
 
 
-    private final static String EXCHANG_NAME_RES = "ex.panel.callback."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
-    private final static String KEY_NAME_RES = "key.panel.callback."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
-    private final static String QUEUE_NAME_RES = "que.panel.callback."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
+    private  String EXCHANG_NAME_RES = "ex.panel.callback."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
+    private  String KEY_NAME_RES = "key.panel.callback."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
+    private  String QUEUE_NAME_RES = "que.panel.callback."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//执行结果
 
    // private final static String EXCHANG_NAME_UP = "ex.panel.compare."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//识别结果
    // private final static String KEY_NAME_UP = "key.panel.compare."+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber());//识别结果推送
@@ -344,7 +348,29 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 //        mWatchDogCore.init(MyApplication.myApplication, serviceCore);
 //        mWatchDogCore.initDogBroadcastReceiver();
 
-        Log.d("MianBanJiActivity3", AppUtils.queryStorage());
+        try {
+            if (baoCunBean.getDangqianChengShi2().equals("涂鸦")){
+                try {
+                    BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream("/sys/class/net/eth0/address")));
+
+                    QUEUE_NAME_YW = "que.panel.auth."+input.readLine();
+                    EXCHANG_NAME_YW = "ex.panel.auth."+input.readLine();
+                    KEY_NAME_YW = "key.panel.auth."+input.readLine();
+                    EXCHANG_NAME_RES = "ex.panel.callback."+input.readLine();//执行结果
+                    KEY_NAME_RES = "key.panel.callback."+input.readLine();//执行结果
+                    QUEUE_NAME_RES = "que.panel.callback."+input.readLine();//执行结果
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            SerialPort mSerialPort = MyApplication.myApplication.getSerialPort(baoCunBean.getDangqianChengShi2());
+            //mOutputStream = mSerialPort.getOutputStream();
+            mInputStream = mSerialPort.getInputStream();
+        } catch (Exception e) {
+            Log.d("MianBanJiActivity", e.getMessage() + "dddddddd");
+        }
+       // Log.d("MianBanJiActivity3", AppUtils.queryStorage());
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -392,13 +418,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         }
 
 
-        try {
-            SerialPort mSerialPort = MyApplication.myApplication.getSerialPort(baoCunBean.getDangqianChengShi2());
-            //mOutputStream = mSerialPort.getOutputStream();
-            mInputStream = mSerialPort.getInputStream();
-        } catch (Exception e) {
-            Log.d("MianBanJiActivity", e.getMessage() + "dddddddd");
-        }
+
 
       //  timeThread =new TimeThread();
      //   timeThread.start();
@@ -1956,7 +1976,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                     SystemClock.sleep(5000);
                     if (rabbitMQUtil==null){
                         rabbitMQUtil=new RabbitMQUtil(mqshow,MianBanJiActivity3.this);
-                        rabbitMQUtil.init("148.70.42.163",5672,"guest","guest@ABCD");
+                        rabbitMQUtil.init(baoCunBean.getHoutaiDiZhi(),5672,"guest","guest@ABCD");
                     }
                 }
             }).start();
@@ -2019,7 +2039,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
                     }
                     isnfc++;
-                    if (isnfc>=2){
+                    if (isnfc>=10){
                         isnfc=0;
                         new Thread(new Runnable() {
                             @Override

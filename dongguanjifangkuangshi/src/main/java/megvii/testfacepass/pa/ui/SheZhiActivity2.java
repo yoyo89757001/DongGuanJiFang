@@ -41,7 +41,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -183,10 +188,22 @@ public class SheZhiActivity2 extends Activity {
         }
 
         TextView jhm = findViewById(R.id.deviceid);
-        jhm.setText("本机序列号:"+(FileUtil.getSerialNumber() == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber()));
+
+        jhm.setText("本机序列号:"+FileUtil.getSerialNumber());
+
         if (baoCunBean.getDangqianChengShi2()!=null){
             chengshi.setText(baoCunBean.getDangqianChengShi2());
+            if (baoCunBean.getDangqianChengShi2().equals("涂鸦")){
+                try {
+                    BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream("/sys/class/net/eth0/address")));
+                    jhm.setText("本机序列号:"+ input.readLine());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
+
         switchs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
