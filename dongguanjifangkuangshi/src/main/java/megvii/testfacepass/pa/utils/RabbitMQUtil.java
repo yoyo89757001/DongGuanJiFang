@@ -51,7 +51,6 @@ public class RabbitMQUtil {
           //  mChannelSend = mConnection.createChannel();
           //  mChannelSend.exchangeDeclare(QUEUE_NAME, "direct");
           //  Callback();
-
         } catch (Exception e) {
             e.printStackTrace();
             activity.runOnUiThread(new Runnable() {

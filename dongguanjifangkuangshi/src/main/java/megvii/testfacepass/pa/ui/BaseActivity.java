@@ -75,6 +75,16 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         obj = new AuthApi();
         MyApplication.myApplication.addActivity(this);
         mSharedPreferences = getSharedPreferences("SP", Context.MODE_PRIVATE);
+//        try {
+//            Intent intent = new Intent();
+//            intent.setAction("LYD_SHOW_NAVIGATION_BAR");
+//            intent.putExtra("type", 1);
+//            this.sendBroadcast(intent);
+//            sendBroadcast(new Intent("com.android.internal.policy.impl.showNavigationBar"));
+//            sendBroadcast(new Intent("com.android.systemui.statusbar.phone.statusopen"));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
         methodRequiresTwoPermission();
 
 
