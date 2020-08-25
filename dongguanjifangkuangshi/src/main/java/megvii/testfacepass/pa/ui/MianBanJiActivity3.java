@@ -667,7 +667,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
     }
 
-
+////
 
 //    /**
 //     * 监听NFC状态
